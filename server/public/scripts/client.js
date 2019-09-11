@@ -21,10 +21,28 @@ function getMusicData() {
                     <td>${response[i].track}</td>
                     <td>${response[i].rank}</td>
                     <td>${response[i].published}</td>
+                    <td><button data-id="${response[i].id}" class="deleteThis">Delete</button></td>
                 </tr>
             `);
         }
+        $('.deleteThis').on('click', deleteBtn);
     });
+}
+
+function deleteBtn(){
+    let songId = $(this).data('id');
+    console.log('Hello from the delete button', songId);
+    $.ajax({
+        type: 'DELETE',
+        url: `/musicLibrary/${songId}`,
+    })
+    .then(function(response){
+        console.log(response);
+        getMusicData();
+    })
+    .catch(function(error){
+        alert('Error on delet line 49', error);
+    })
 }
 
 function postMusicData() {
